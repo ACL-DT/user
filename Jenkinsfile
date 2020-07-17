@@ -20,7 +20,7 @@ pipeline {
     APP_NAME = "user"
     ARTEFACT_ID = "sockshop/" + "${env.APP_NAME}"
     VERSION = readFile('version').trim()
-    TAG = "${env.DOCKER_REGISTRY_URL}:5000/library/${env.ARTEFACT_ID}"
+    TAG = "adarby005.azurecr.io/library/${env.ARTEFACT_ID}"
     TAG_DEV = "${env.TAG}-${env.VERSION}-${env.BUILD_NUMBER}"
     TAG_STAGING = "${env.TAG}-${env.VERSION}"
   }
@@ -56,6 +56,7 @@ pipeline {
       }
       steps {
         container('docker') {
+          sh "docker login -u adarby005 -p zR+9Zs=8XQnLebQOoqtPuKBjtgPV4Pa6 adarby005.azurecr.io"
           sh "docker build -t ${env.TAG_DEV} ."
         }
       }
@@ -68,6 +69,7 @@ pipeline {
       }
       steps {
         container('docker') {
+          sh "docker login -u adarby005 -p zR+9Zs=8XQnLebQOoqtPuKBjtgPV4Pa6 adarby005.azurecr.io"
           sh "docker push ${env.TAG_DEV}"
         }
       }
@@ -185,6 +187,7 @@ pipeline {
       }
       steps {
         container('docker'){
+          sh "docker login -u adarby005 -p zR+9Zs=8XQnLebQOoqtPuKBjtgPV4Pa6 adarby005.azurecr.io"
           sh "docker tag ${env.TAG_DEV} ${env.TAG_STAGING}"
           sh "docker push ${env.TAG_STAGING}"
         }
